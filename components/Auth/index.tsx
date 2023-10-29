@@ -79,27 +79,6 @@ const Auth = () => {
     setErrors({ ...errors, [name]: error });
   };
 
-  //     if (!data.name) {
-  //       errors.name = "Name is required";
-  //     }
-
-  //     // Email validation
-  //     if (!data.email) {
-  //       errors.email = "Email is required";
-  //     } else if (!isValidEmail(data.email)) {
-  //       errors.email = "Invalid email format";
-  //     }
-
-  //     // Password validation
-  //     if (!data.password) {
-  //       errors.password = "Password is required";
-  //     } else if (data.password.length < 6) {
-  //       errors.password = "Password must be at least 5 characters long";
-  //     }
-
-  //     return errors;
-  //   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
