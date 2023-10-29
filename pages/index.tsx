@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import HomeHeader from "@/components/Header/HomeHeader";
+import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <main className="bg-white">
-        <HomeHeader />
+        <Header />
 
         <div className="relative isolate px-6 pt-14 lg:px-8">
           <div

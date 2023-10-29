@@ -1,10 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-const HomeHeader = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Header = () => {
+  const router = useRouter();
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav
@@ -22,17 +21,19 @@ const HomeHeader = () => {
           </Link>
         </div>
 
-        <div className="lg:flex lg:justify-end">
-          <Link
-            href="#"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
+        {router.pathname === "/" && (
+          <div className="lg:flex lg:justify-end">
+            <Link
+              href="#"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   );
 };
 
-export default HomeHeader;
+export default Header;
