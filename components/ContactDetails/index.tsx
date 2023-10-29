@@ -1,8 +1,8 @@
 import ColorsComponent from "@/ui/ColorComponent";
 import Link from "next/link";
 import React from "react";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const ContactDetails = () => {
   return (

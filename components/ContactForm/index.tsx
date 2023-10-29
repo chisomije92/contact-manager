@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
-import Input from "../Input/Input";
+import Input from "../Input";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const ContactForm = () => {
   const router = useRouter();

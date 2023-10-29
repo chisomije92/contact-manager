@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Input from "../Input/Input";
+import Input from "../Input";
 import { useRouter } from "next/router";
 
 type errorType = {

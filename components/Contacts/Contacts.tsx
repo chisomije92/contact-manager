@@ -1,106 +1,52 @@
 import React from "react";
-import Header from "../Header/Header";
+import Header from "../Header";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
 import Link from "next/link";
+import Contact from "./Contact";
 
 const people = [
   {
-    name: "Leslie Alexander",
-    email: "leslie.alexander@example.com",
-    role: "Co-Founder / CEO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    id: 1,
+    firstName: "John",
+    lastName: "Doe",
+    phoneNumber: "123-456-7890",
   },
   {
-    name: "Michael Foster",
-    email: "michael.foster@example.com",
-    role: "Co-Founder / CTO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    id: 2,
+    firstName: "Jane",
+    lastName: "Smith",
+    phoneNumber: "234-567-8901",
   },
   {
-    name: "Dries Vincent",
-    email: "dries.vincent@example.com",
-    role: "Business Relations",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
+    id: 3,
+    firstName: "James",
+    lastName: "Johnson",
+    phoneNumber: "345-678-9012",
   },
   {
-    name: "Lindsay Walton",
-    email: "lindsay.walton@example.com",
-    role: "Front-end Developer",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    id: 4,
+    firstName: "Emily",
+    lastName: "Williams",
+    phoneNumber: "456-789-0123",
   },
   {
-    name: "Courtney Henry",
-    email: "courtney.henry@example.com",
-    role: "Designer",
-    imageUrl:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    id: 5,
+    firstName: "Michael",
+    lastName: "Brown",
+    phoneNumber: "567-890-1234",
   },
   {
-    name: "Tom Cooker",
-    email: "tom.cook@example.com222",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
+    id: 6,
+    firstName: "Sarah",
+    lastName: "Davis",
+    phoneNumber: "678-901-2345",
   },
-
   {
-    name: "Tom Cooke",
-    email: "tom.cook@example.com33",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
-  },
-
-  {
-    name: "Tom Cooka",
-    email: "tom.cook@example.com8",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
-  },
-
-  {
-    name: "Tom Cook",
-    email: "tom.cook@example.com3",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
-  },
-
-  {
-    name: "Tom Cook",
-    email: "tom.cook@example.com12",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
-  },
-
-  {
-    name: "Tom Cook",
-    email: "tom.cook@example.com1",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
+    id: 7,
+    firstName: "David",
+    lastName: "Miller",
+    phoneNumber: "789-012-3456",
   },
 ];
 
@@ -124,40 +70,23 @@ const Contacts = () => {
           Create Contact
         </button>
       </div>
+      {people.length < 1 && (
+        <div className="translate-y-32">
+          <h1 className="text-3xl font-bold tracking-tighter text-gray-700 text-center ">
+            No contacts yet. You may proceed to create your contact.
+          </h1>
+        </div>
+      )}
       <ul role="list" className="divide-y divide-gray-100 translate-y-32">
-        {people.map((person) => (
-          <li
-            key={person.email}
-            className="flex justify-between gap-x-9 py-5 px-40"
-          >
-            <div className="flex  gap-x-4">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {person.name}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  555-555-555
-                </p>
-              </div>
-            </div>
-            <div className=" shrink-0 sm:flex sm:flex-col sm:items-end">
-              <div className="flex justify-between">
-                <Link
-                  href={"/edit-contact"}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2"
-                >
-                  Edit
-                </Link>
-                <Link
-                  href={"/contact-details"}
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-                >
-                  View
-                </Link>
-              </div>
-            </div>
-          </li>
-        ))}
+        {/* {people.map((person) => (
+          <Contact
+            id={person.id}
+            key={person.id}
+            firstName={person.firstName}
+            lastName={person.lastName}
+            phoneNumber={person.phoneNumber}
+          />
+        ))} */}
       </ul>
     </section>
   );
