@@ -5,15 +5,8 @@ import { useRouter } from "next/router";
 
 const Auth = () => {
   const router = useRouter();
-  const [showLogin, setShowLogin] = useState(true);
   const { pathname } = router;
-  useEffect(() => {
-    if (pathname === "/register") {
-      setShowLogin(false);
-    } else {
-      setShowLogin(true);
-    }
-  }, [pathname]);
+  const showLogin = pathname === "/login";
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
