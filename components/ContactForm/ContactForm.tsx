@@ -3,20 +3,18 @@ import React from "react";
 import Input from "../Input/Input";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 const ContactForm = () => {
   const router = useRouter();
   const showCreateContact = router.pathname === "/create-contact";
   return (
     <section>
+      <Header />
       <ColorsComponent />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Hux Contact Manager"
-          />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             {showCreateContact ? "Create contact" : "Edit contact"}
           </h2>
@@ -63,6 +61,7 @@ const ContactForm = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </section>
   );
 };
