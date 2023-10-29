@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <>
-      <div className="bg-white">
+      <main className="bg-white">
         <HomeHeader />
 
         <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -64,7 +64,7 @@ export default function Home() {
           </div>
         </div>
         <Footer />
-      </div>
+      </main>
     </>
   );
 }
