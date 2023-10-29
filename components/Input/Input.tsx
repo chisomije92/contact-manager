@@ -11,6 +11,8 @@ type InputProps = {
   inputClassName?: string;
   required?: boolean;
   value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
 };
 
 const Input: FC<InputProps> = ({
@@ -24,6 +26,8 @@ const Input: FC<InputProps> = ({
   labelClassName,
   required,
   value,
+  onChange,
+  onBlur,
 }) => {
   return (
     <div className={className1}>
@@ -38,6 +42,8 @@ const Input: FC<InputProps> = ({
           required={required}
           className={inputClassName}
           value={value}
+          onChange={onChange}
+          onBlur={onBlur}
         />
       </div>
     </div>
