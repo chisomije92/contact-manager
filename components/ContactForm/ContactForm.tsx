@@ -43,7 +43,7 @@ const ContactForm = () => {
           <Input
             id="phoneNumber"
             name="phoneNumber"
-            type="number"
+            type="tel"
             labelText="Phone Number"
             className2="mt-2"
             labelClassName="block text-sm font-medium leading-6 text-gray-900"
