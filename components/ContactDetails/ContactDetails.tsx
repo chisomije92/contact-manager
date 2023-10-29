@@ -1,4 +1,5 @@
 import ColorsComponent from "@/ui/ColorComponent";
+import Link from "next/link";
 import React from "react";
 
 const ContactDetails = () => {
@@ -28,9 +29,12 @@ const ContactDetails = () => {
           </div>
 
           <div className="flex justify-between p-6">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <Link
+              href={"/edit-contact"}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
               Edit
-            </button>
+            </Link>
             <button className="bg-red-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
               Delete
             </button>

@@ -11,7 +11,7 @@ const Header = () => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link href="/login" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
               className="h-8 w-auto"
@@ -24,7 +24,7 @@ const Header = () => {
         {router.pathname === "/" && (
           <div className="lg:flex lg:justify-end">
             <Link
-              href="#"
+              href="/login"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Log in <span aria-hidden="true">&rarr;</span>

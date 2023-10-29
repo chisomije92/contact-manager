@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Header/Header";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
+import Link from "next/link";
 
 const people = [
   {
@@ -109,7 +110,7 @@ const Contacts = () => {
     <section className="">
       <Header />
       <ColorsComponent />
-      <div className="translate-y-28">
+      <div className="translate-y-24">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 text-center ">
           Contacts Manager
         </h1>
@@ -141,12 +142,18 @@ const Contacts = () => {
             </div>
             <div className=" shrink-0 sm:flex sm:flex-col sm:items-end">
               <div className="flex justify-between">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2">
+                <Link
+                  href={"/edit-contact"}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2"
+                >
                   Edit
-                </button>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                </Link>
+                <Link
+                  href={"/contact-details"}
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                >
                   View
-                </button>
+                </Link>
               </div>
             </div>
           </li>
