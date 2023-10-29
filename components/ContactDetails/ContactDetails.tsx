@@ -1,0 +1,44 @@
+import ColorsComponent from "@/ui/ColorComponent";
+import React from "react";
+
+const ContactDetails = () => {
+  return (
+    <div>
+      <ColorsComponent />
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img
+            className="mx-auto h-10 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            alt="Hux Contact Manager"
+          />
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Contact Details
+          </h2>
+        </div>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+          <div className="bg-gray-100 h-40 w-full"></div>
+
+          <div className="p-6">
+            <div className="text-xl font-semibold">Chisom Ijeomah</div>
+            <div className="text-gray-500">555 - 555 - 555</div>
+          </div>
+
+          <div className="flex justify-between p-6">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Edit
+            </button>
+            <button className="bg-red-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactDetails;
