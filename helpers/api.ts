@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Router from 'next/router'
 
-const baseURL = "http://localhost:8000/api/"
+const baseURL = "http://localhost:8000/api"
 
 const api = axios.create({
     baseURL,
