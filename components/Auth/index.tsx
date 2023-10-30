@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { authenticateUser } from "@/utils/auth";
 
 type errorType = {

@@ -26,7 +26,7 @@ api.interceptors.response.use(
 
     async (error) => {
         const originalRequest = error.config;
-        console.log("request interceptor")
+        console.log("response interceptor")
         // If the error status is 401 and there is no originalRequest._retry flag,
         // it means the token has expired and we need to refresh it
         if (error.response.status === 401 && !originalRequest._retry) {
@@ -34,7 +34,7 @@ api.interceptors.response.use(
 
             try {
                 const refreshToken = localStorage.getItem('refreshToken');
-                const response = await axios.post('/api/refresh-token', { refreshToken });
+                const response = await axios.post(`${baseURL}/auth/refresh-token`, { refreshToken });
                 const { accessToken } = response.data;
 
                 localStorage.setItem('accessToken', accessToken);

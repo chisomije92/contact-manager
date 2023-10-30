@@ -1,7 +1,8 @@
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useState, CSSProperties } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
-type ContactType = {
+export type ContactType = {
   id: string | number;
   firstName: string;
   lastName: string;
@@ -31,7 +32,7 @@ const Contact: FC<ContactType> = ({ id, firstName, lastName, phoneNumber }) => {
               Edit
             </Link>
             <Link
-              href={"/contact-details"}
+              href={`/contacts/${id}`}
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
             >
               View
