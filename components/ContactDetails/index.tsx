@@ -1,10 +1,12 @@
 import ColorsComponent from "@/ui/ColorComponent";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import api from "@/helpers/api";
 import { useRouter } from "next/router";
+import { ClipLoader } from "react-spinners";
+import { override } from "../Contacts";
 
 const ContactDetails = () => {
   const router = useRouter();
@@ -29,7 +31,10 @@ const ContactDetails = () => {
         const response = await api.get(`/contacts/${id}`);
         setContact(response.data[0]);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
+        if (err.response.status === 500) {
+          router.replace("/contacts");
+        }
         console.log(err);
       }
     };
@@ -39,7 +44,16 @@ const ContactDetails = () => {
     <section>
       <Header />
       <ColorsComponent />
-
+      {loading && (
+        <ClipLoader
+          color={color}
+          loading={loading}
+          cssOverride={override}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      )}
       {!loading && contact.id && (
         <>
           {" "}

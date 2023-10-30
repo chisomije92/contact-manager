@@ -6,8 +6,9 @@ import Link from "next/link";
 import Contact, { ContactType } from "./Contact";
 import api from "@/helpers/api";
 import ClipLoader from "react-spinners/ClipLoader";
+import Footer from "../Footer";
 
-const override: CSSProperties = {
+export const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
   marginTop: "80px",
@@ -89,6 +90,7 @@ const Contacts = () => {
           ))}
         </ul>
       )}
+      <Footer />
     </section>
   );
 };
