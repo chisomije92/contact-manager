@@ -55,7 +55,7 @@ const Contacts = () => {
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-36 mr-2 "
           type="button"
-          onClick={() => router.push("/create-contact")}
+          onClick={() => router.push(`/create-contact`)}
         >
           Create Contact
         </button>

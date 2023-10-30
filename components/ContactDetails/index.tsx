@@ -77,7 +77,7 @@ const ContactDetails = () => {
 
               <div className="flex justify-between p-6">
                 <Link
-                  href={"/edit-contact"}
+                  href={`/contact/${id}`}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Edit

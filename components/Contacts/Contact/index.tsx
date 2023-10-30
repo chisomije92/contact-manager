@@ -26,7 +26,7 @@ const Contact: FC<ContactType> = ({ id, firstName, lastName, phoneNumber }) => {
         <div className=" shrink-0 sm:flex sm:flex-col sm:items-end">
           <div className="flex justify-between">
             <Link
-              href={"/edit-contact"}
+              href={`/edit-contact/${id}`}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-2"
             >
               Edit

@@ -1,10 +1,10 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
 import Header from "../Header";
 import Footer from "../Footer";
+import api from "@/helpers/api";
 
 type errorType = {
   firstName: string | null;
@@ -14,6 +14,7 @@ type errorType = {
 
 const ContactForm = () => {
   const router = useRouter();
+  const { id } = router.query;
   const showCreateContact = router.pathname === "/create-contact";
 
   const [formData, setFormData] = useState({
@@ -23,20 +24,38 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState<errorType>({
-    firstName: null,
-    lastName: null,
-    phoneNumber: null,
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
   });
   const [isFormValid, setIsFormValid] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   // Check overall form validity and update isFormValid state
   useEffect(() => {
-    setIsFormValid(
-      Object.values(errors).every((error) => {
-        return !error;
-      }) && Object.values(formData).every((value) => value !== "")
-    );
+    setIsFormValid(Object.values(formData).every((value) => value !== ""));
   }, [formData, errors]);
+
+  useEffect(() => {
+    const getContactDetails = async () => {
+      try {
+        const response = await api.get(`/contacts/${id}`);
+        const data = response.data[0];
+        console.log(data);
+        setFormData({
+          firstName: data.first_name,
+          lastName: data.last_name,
+          phoneNumber: data.phone_number,
+        });
+      } catch (err: any) {
+        if (err.response.status === 500) {
+          router.replace("/contacts");
+        }
+        console.log(err);
+      }
+    };
+    !showCreateContact && getContactDetails();
+  }, [showCreateContact, id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,8 +86,37 @@ const ContactForm = () => {
     setErrors({ ...errors, [name]: error });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let credentials = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phoneNumber: formData.phoneNumber,
+    };
+    if (showCreateContact && isFormValid) {
+      try {
+        const response = await api.post(`/contacts`, credentials);
+        console.log(response);
+        router.push("/contacts");
+      } catch (err: any) {
+        err.response.status === 401 && setFetchError("Invalid inputs");
+        err.response.status === 400 && setFetchError(err.response.data.message);
+        setTimeout(() => {
+          setFetchError(null);
+        }, 4000);
+        console.log(err);
+      }
+    }
+
+    if (!showCreateContact && isFormValid) {
+      try {
+        await api.put(`/contacts/${id}`, credentials);
+        router.push("/contacts");
+      } catch (err: any) {
+        err.response.status === 401 && setFetchError("Invalid inputs");
+        console.log(err);
+      }
+    }
   };
   return (
     <section>
@@ -81,12 +129,7 @@ const ContactForm = () => {
           </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            className="space-y-6"
-            action="#"
-            method="POST"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
               id="firstName"
               name="firstName"
@@ -142,6 +185,7 @@ const ContactForm = () => {
                 {showCreateContact ? "Create Contact" : "Edit Contact"}
               </button>
             </div>
+            {fetchError && <span className="text-red-600">{fetchError}</span>}
           </form>
         </div>
       </div>
