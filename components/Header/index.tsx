@@ -1,9 +1,32 @@
+import api from "@/helpers/api";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Header = () => {
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("accessToken");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      setIsAuthenticated(false);
+      router.replace("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav
@@ -13,15 +36,16 @@ const Header = () => {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            <Image
+              src="/Contacts.svg"
+              width={50}
               alt="Hux contact manager"
+              height={50}
             />
           </Link>
         </div>
 
-        {router.pathname === "/" && (
+        {router.pathname === "/" && !isAuthenticated && (
           <div className="lg:flex lg:justify-end">
             <Link
               href="/login"
@@ -31,6 +55,18 @@ const Header = () => {
             </Link>
           </div>
         )}
+        {router.pathname !== "/login" &&
+          router.pathname !== "/register" &&
+          isAuthenticated && (
+            <div className="lg:flex lg:justify-end">
+              <button
+                className="text-sm font-semibold leading-6 text-gray-900"
+                onClick={handleLogout}
+              >
+                Log out <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+          )}
       </nav>
     </header>
   );
