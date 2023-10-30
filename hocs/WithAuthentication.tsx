@@ -1,10 +1,6 @@
+import useAuth from "@/Hooks/useAuth";
 import { useRouter } from "next/dist/client/router";
-import {
-  JSXElementConstructor,
-  ReactElement,
-  useEffect,
-  useState,
-} from "react";
+import { JSXElementConstructor, ReactElement } from "react";
 
 export default function withAuthentication(
   Component:
@@ -14,17 +10,8 @@ export default function withAuthentication(
   return function Render(
     props: Record<string, any>
   ): ReactElement<unknown> | null {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const router = useRouter();
-
-    useEffect(() => {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        setIsAuthenticated(true);
-      } else {
-        router.replace(`/`);
-      }
-    }, []);
+    // const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     return isAuthenticated ? <Component {...props} /> : null;
   };
