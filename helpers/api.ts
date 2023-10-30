@@ -42,7 +42,6 @@ api.interceptors.response.use(
                 return axios(originalRequest);
             } catch (error) {
                 // Handle refresh token error or redirect to login
-                // window.location.href = '/error'
                 Router.replace('/')
                 return Promise.reject(error);
             }

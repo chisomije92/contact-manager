@@ -7,6 +7,7 @@ import Contact, { ContactType } from "./Contact";
 import api from "@/helpers/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "../Footer";
+import withAuthentication from "@/hocs/WithAuthentication";
 
 export const override: CSSProperties = {
   display: "block",
@@ -94,4 +95,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default withAuthentication(Contacts);

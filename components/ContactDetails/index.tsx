@@ -7,6 +7,7 @@ import api from "@/helpers/api";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners";
 import { override } from "../Contacts";
+import withAuthentication from "@/hocs/WithAuthentication";
 
 const ContactDetails = () => {
   const router = useRouter();
@@ -107,4 +108,4 @@ const ContactDetails = () => {
   );
 };
 
-export default ContactDetails;
+export default withAuthentication(ContactDetails);

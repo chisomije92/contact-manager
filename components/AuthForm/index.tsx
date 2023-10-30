@@ -11,7 +11,7 @@ type errorType = {
   name: string | null;
 };
 
-const Auth = () => {
+const AuthForm = () => {
   const router = useRouter();
   const { pathname } = router;
   const showLogin = pathname === "/login";
@@ -222,4 +222,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default AuthForm;

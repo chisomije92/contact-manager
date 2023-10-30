@@ -5,6 +5,7 @@ import ColorsComponent from "@/ui/ColorComponent";
 import Header from "../Header";
 import Footer from "../Footer";
 import api from "@/helpers/api";
+import withAuthentication from "@/hocs/WithAuthentication";
 
 type errorType = {
   firstName: string | null;
@@ -194,4 +195,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default withAuthentication(ContactForm);
