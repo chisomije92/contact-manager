@@ -90,7 +90,6 @@ const Contacts = () => {
           ))}
         </ul>
       )}
-      <Footer />
     </section>
   );
 };

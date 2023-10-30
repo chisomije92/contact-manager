@@ -40,6 +40,15 @@ const ContactDetails = () => {
     };
     fetchContacts();
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/contacts/${id}`);
+      router.push("/contacts");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <section>
       <Header />
@@ -77,12 +86,15 @@ const ContactDetails = () => {
 
               <div className="flex justify-between p-6">
                 <Link
-                  href={`/contact/${id}`}
+                  href={`/contacts/${id}`}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Edit
                 </Link>
-                <button className="bg-red-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <button
+                  className="bg-red-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={handleDelete}
+                >
                   Delete
                 </button>
               </div>
