@@ -2,6 +2,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { authenticateUser } from "@/utils/auth";
 
 type errorType = {
   email: string | null;
@@ -18,13 +20,13 @@ const Auth = () => {
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState<errorType>({
     email: null,
     password: null,
     name: null,
   });
   const [isFormValid, setIsFormValid] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // Check overall form validity and update isFormValid state
   useEffect(() => {
@@ -41,6 +43,13 @@ const Auth = () => {
       }) && checkForFormValidity(formData)
     );
   }, [formData, errors]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (authError) timer = setTimeout(() => setAuthError(null), 5000);
+
+    return () => timer && clearTimeout(timer);
+  }, [authError]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,8 +88,46 @@ const Auth = () => {
     setErrors({ ...errors, [name]: error });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let credentials: any;
+    setAuthError(null);
+    if (isFormValid && showLogin) {
+      try {
+        credentials = {
+          email: formData.email,
+          password: formData.password,
+        };
+
+        await authenticateUser(
+          router,
+          credentials,
+          "http://localhost:8000/api/auth/login"
+        );
+      } catch (err: any) {
+        err.response.status === 401 &&
+          setAuthError("Invalid email or password");
+        console.log(err);
+      }
+    }
+    if (isFormValid && !showLogin) {
+      credentials = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      };
+      try {
+        await authenticateUser(
+          router,
+          credentials,
+          "http://localhost:8000/api/auth/register"
+        );
+      } catch (err: any) {
+        err.response.status === 409 &&
+          setAuthError("User exists already. Please sign in");
+        console.log(err);
+      }
+    }
   };
 
   return (
@@ -99,12 +146,7 @@ const Auth = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form
-          className="space-y-6"
-          action="#"
-          method="POST"
-          onSubmit={handleSubmit}
-        >
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {!showLogin && (
             <Input
               id="name"
@@ -161,6 +203,7 @@ const Auth = () => {
               {showLogin ? "Login" : "Register"}
             </button>
           </div>
+          {authError && <span className="text-red-600">{authError}</span>}
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Router from 'next/router'
 
-const baseURL = "localhost:8000/api"
+const baseURL = "http://localhost:8000/api/"
 
 const api = axios.create({
     baseURL,
@@ -10,6 +10,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
     (config) => {
+        console.log("request interceptor")
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
@@ -22,9 +23,10 @@ api.interceptors.request.use(
 // Add a response interceptor
 api.interceptors.response.use(
     (response) => response,
+
     async (error) => {
         const originalRequest = error.config;
-
+        console.log("request interceptor")
         // If the error status is 401 and there is no originalRequest._retry flag,
         // it means the token has expired and we need to refresh it
         if (error.response.status === 401 && !originalRequest._retry) {
