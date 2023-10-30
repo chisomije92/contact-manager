@@ -44,7 +44,16 @@ const Header = () => {
             />
           </Link>
         </div>
-
+        {router.pathname !== "/contacts" && isAuthenticated && (
+          <div className="lg:flex lg:justify-end">
+            <Link
+              href="/contacts"
+              className="text-md font-semibold leading-6 mr-5 text-blue-500"
+            >
+              View Contacts
+            </Link>
+          </div>
+        )}
         {router.pathname === "/" && !isAuthenticated && (
           <div className="lg:flex lg:justify-end">
             <Link
