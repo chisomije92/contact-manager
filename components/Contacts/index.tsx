@@ -2,7 +2,6 @@ import React, { useEffect, useState, CSSProperties } from "react";
 import Header from "../Header";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
-import Link from "next/link";
 import Contact, { ContactType } from "./Contact";
 import api from "@/helpers/api";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -32,7 +31,7 @@ const Contacts = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await api.get("/contacts");
+        const response = await api.get("/contacts", { withCredentials: true });
         setContacts(response.data);
         setLoading(false);
       } catch (err) {
@@ -41,6 +40,7 @@ const Contacts = () => {
     };
     fetchContacts();
   }, []);
+
   const router = useRouter();
   return (
     <section className="">

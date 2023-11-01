@@ -99,11 +99,12 @@ const AuthForm = () => {
           password: formData.password,
         };
 
-        await authenticateUser(
+        const accessToken = await authenticateUser(
           router,
           credentials,
           "http://localhost:8000/api/auth/login"
         );
+        // setCookie("accessToken", accessToken);
       } catch (err: any) {
         err.response.status === 401 &&
           setAuthError("Invalid email or password");

@@ -1,19 +1,31 @@
 import axios from 'axios';
 import Router from 'next/router'
 
-const baseURL = "http://localhost:8000/api"
 
+
+export const baseURL = "http://localhost:8000/api"
+
+axios.defaults.withCredentials = true
 const api = axios.create({
     baseURL,
+    withCredentials: true,
+    timeout: 1000,
+    headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        "Access-Control-Allow-Origin": "localhost",
+    },
 });
 
 // Add a request interceptor
+
 api.interceptors.request.use(
-    (config) => {
+    async (config) => {
+        await new Promise((resolve) => setTimeout(resolve, 100));
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
+
         return config;
     },
     (error) => Promise.reject(error)
@@ -21,7 +33,8 @@ api.interceptors.request.use(
 
 // Add a response interceptor
 api.interceptors.response.use(
-    (response) => response,
+    (response) => response
+    ,
 
     async (error) => {
         const originalRequest = error.config;
@@ -31,8 +44,11 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
-                const response = await axios.post(`${baseURL}/auth/refresh-token`, { refreshToken });
+
+                const response = await axios.get(`${baseURL}/auth/refresh-token`,
+                    { withCredentials: true }
+                );
+
                 const { accessToken } = response.data;
 
                 localStorage.setItem('accessToken', accessToken);

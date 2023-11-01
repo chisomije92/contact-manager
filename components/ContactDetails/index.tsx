@@ -39,7 +39,9 @@ const ContactDetails = () => {
         console.log(err);
       }
     };
-    fetchContacts();
+    if (id) {
+      fetchContacts();
+    }
   }, [id]);
 
   const handleDelete = async () => {
