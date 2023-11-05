@@ -122,8 +122,12 @@ const AuthForm = () => {
         );
       } catch (err: any) {
         setLoading(false);
-        err.response.status === 401 &&
+        if (err.response.status === 401) {
           setAuthError("Invalid email or password");
+        } else {
+          setAuthError("Login failed. Please try again later!");
+        }
+
         console.log(err);
       }
     }

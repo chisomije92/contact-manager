@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Input from "../Input";
+import axios from "axios";
 
 const ResetPassword = () => {
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
 
@@ -17,8 +18,23 @@ const ResetPassword = () => {
     setEmail(value);
   };
 
-  const handleClick = () => {
-    console.log(email);
+  const handleProceed = async () => {
+    setLoading(true);
+    setEmail("");
+    try {
+      await axios.post("http://localhost:8000/api/auth/reset-password", {
+        email,
+      });
+    } catch (err: any) {
+      if (err.response.status === 404) {
+        setAuthError("Email not found! Please register your account");
+      } else {
+        setAuthError("Password reset attempt failed. Please try again later!");
+      }
+
+      console.log(err.response);
+    }
+    setLoading(false);
   };
   return (
     <section className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -49,8 +65,8 @@ const ResetPassword = () => {
 
         <div>
           <button
-            disabled={!isValidEmail(email)}
-            onClick={handleClick}
+            disabled={!isValidEmail(email) || loading}
+            onClick={handleProceed}
             className="flex disabled:bg-gray-400 disabled:cursor-not-allowed w-full justify-center rounded-md enabled:bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Proceed

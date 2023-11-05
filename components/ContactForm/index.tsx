@@ -42,7 +42,6 @@ const ContactForm = () => {
       try {
         const response = await api.get(`/contacts/${id}`);
         const data = response.data[0];
-        console.log(data);
         setFormData({
           firstName: data.first_name,
           lastName: data.last_name,
@@ -56,7 +55,7 @@ const ContactForm = () => {
       }
     };
     !showCreateContact && getContactDetails();
-  }, [showCreateContact, id]);
+  }, [showCreateContact, id, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -96,8 +95,7 @@ const ContactForm = () => {
     };
     if (showCreateContact && isFormValid) {
       try {
-        const response = await api.post(`/contacts`, credentials);
-        console.log(response);
+        await api.post(`/contacts`, credentials);
         router.push("/contacts");
       } catch (err: any) {
         err.response.status === 401 && setFetchError("Invalid inputs");

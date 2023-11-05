@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Router from 'next/router'
 
-
-
 export const baseURL = "http://localhost:8000/api"
 
 axios.defaults.withCredentials = true
@@ -11,7 +9,7 @@ const api = axios.create({
     withCredentials: true,
     timeout: 1000,
     headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        // "content-type": "application/json",
         "Access-Control-Allow-Origin": "localhost",
     },
 });
@@ -40,19 +38,14 @@ api.interceptors.response.use(
         const originalRequest = error.config;
         // If the error status is 401 and there is no originalRequest._retry flag,
         // it means the token has expired and we need to refresh it
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-
             try {
-
                 const response = await axios.get(`${baseURL}/auth/refresh-token`,
                     { withCredentials: true }
                 );
-
                 const { accessToken } = response.data;
-
                 localStorage.setItem('accessToken', accessToken);
-
                 // Retry the original request with the new token
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;
                 return axios(originalRequest);

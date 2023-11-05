@@ -1,10 +1,12 @@
-import Link from "next/link";
-
 import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { authenticateUser } from "@/utils/auth";
 
-const ForgotPassword = () => {
+const ChangePassword = () => {
+  const router = useRouter();
+  const { token } = router.query;
   const [errors, setErrors] = useState<{
     password: string | null;
     confirmPassword: string | null;
@@ -18,7 +20,7 @@ const ForgotPassword = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const [loading, setLoading] = useState(false);
   // Check overall form validity and update isFormValid state
   useEffect(() => {
     const checkForFormValidity = (data: any) => {
@@ -64,8 +66,37 @@ const ForgotPassword = () => {
     setErrors({ ...errors, [name]: error });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const credentials = {
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      };
+      setFormData({
+        password: "",
+        confirmPassword: "",
+      });
+      await authenticateUser(
+        router,
+        credentials,
+        `http://localhost:8000/api/auth/finish-reset/${token}`
+      );
+      router.push("/contacts");
+    } catch (err: any) {
+      if (err.response.status === 404) {
+        setAuthError("Email not found! Please register your account");
+      }
+      if (err.response.status === 400) {
+        setAuthError("Passwords do not match");
+      } else {
+        setAuthError("Password reset attempt failed. Please try again later!");
+      }
+
+      console.log(err.response);
+    }
+    setLoading(false);
   };
 
   return (
@@ -118,7 +149,7 @@ const ForgotPassword = () => {
             )}
           <div>
             <button
-              disabled={!isFormValid}
+              disabled={!isFormValid || loading}
               type="submit"
               className="flex disabled:bg-gray-400 disabled:cursor-not-allowed w-full justify-center rounded-md enabled:bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
@@ -132,4 +163,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ChangePassword;

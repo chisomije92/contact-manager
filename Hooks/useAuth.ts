@@ -1,6 +1,5 @@
 
 import api from '@/helpers/api';
-import axios from 'axios';
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +11,6 @@ const useAuth = () => {
 
         const validateUser = async () => {
             if (token) {
-                // setIsAuthenticated(true);
                 try {
                     await api.get('http://localhost:8000/api/auth/validate', {
                         headers: {
