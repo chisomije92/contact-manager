@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { authenticateUser } from "@/utils/auth";
 import Image from "next/image";
 
-type errorType = {
+export type authErrorType = {
   email: string | null;
   password: string | null;
   name: string | null;
@@ -20,7 +20,7 @@ const AuthForm = () => {
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState<errorType>({
+  const [errors, setErrors] = useState<authErrorType>({
     email: null,
     password: null,
     name: null,
@@ -124,8 +124,9 @@ const AuthForm = () => {
           "http://localhost:8000/api/auth/register"
         );
       } catch (err: any) {
-        err.response.status === 409 &&
-          setAuthError("User exists already. Please sign in");
+        err.response.status === 409
+          ? setAuthError("User exists already. Please sign in")
+          : setAuthError("Error registering user. Please try again later.");
         console.log(err);
       }
     }
@@ -196,6 +197,16 @@ const AuthForm = () => {
           />
           {errors.password !== "" && formData.password.length < 5 && (
             <span className="text-red-400">{errors.password}</span>
+          )}
+          {showLogin && (
+            <div className="text-sm flex justify-end">
+              <Link
+                href="/reset-password"
+                className="font-semibold text-indigo-600 hover:text-indigo-500"
+              >
+                Forgot password?
+              </Link>
+            </div>
           )}
           <div>
             <button
