@@ -11,8 +11,6 @@ export const authenticateUser = async (router: NextRouter, credentials: any, url
 
     // Store the tokens in localStorage or secure cookie for later use
     localStorage.setItem("accessToken", accessToken);
-    // localStorage.setItem("refreshToken", refreshToken);
     router.push("/contacts");
-    console.log(response)
     return accessToken
 }
