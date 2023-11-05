@@ -1,5 +1,4 @@
 import useAuth from "@/Hooks/useAuth";
-import { useRouter } from "next/dist/client/router";
 import { JSXElementConstructor, ReactElement } from "react";
 
 export default function withAuthentication(

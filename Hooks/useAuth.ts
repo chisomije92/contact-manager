@@ -1,4 +1,6 @@
 
+import api from '@/helpers/api';
+import axios from 'axios';
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -8,11 +10,28 @@ const useAuth = () => {
     useEffect(() => {
         const token = window.localStorage.getItem("accessToken");
 
-        if (token) {
-            setIsAuthenticated(true);
-        } else {
-            Router.pathname !== "/" && Router.replace(`/`);
+        const validateUser = async () => {
+            if (token) {
+                // setIsAuthenticated(true);
+                try {
+                    await api.get('http://localhost:8000/api/auth/validate', {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    setIsAuthenticated(true)
+                } catch (err: any) {
+                    console.log(err.response)
+                    setIsAuthenticated(false)
+                    Router.pathname !== "/" && Router.replace(`/`);
+                }
+            } else {
+                setIsAuthenticated(false)
+                Router.pathname !== "/" && Router.replace(`/`);
+            }
         }
+        validateUser()
+
     }, []);
     return {
         isAuthenticated,

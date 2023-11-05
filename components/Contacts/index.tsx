@@ -2,10 +2,9 @@ import React, { useEffect, useState, CSSProperties } from "react";
 import Header from "../Header";
 import { useRouter } from "next/router";
 import ColorsComponent from "@/ui/ColorComponent";
-import Contact, { ContactType } from "./Contact";
+import Contact from "./Contact";
 import api from "@/helpers/api";
 import ClipLoader from "react-spinners/ClipLoader";
-import Footer from "../Footer";
 import withAuthentication from "@/hocs/WithAuthentication";
 
 export const override: CSSProperties = {

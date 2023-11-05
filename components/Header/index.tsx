@@ -13,7 +13,7 @@ const Header = () => {
     try {
       await api.post("/auth/logout");
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("tokenExpiration");
       setIsAuthenticated(false);
       router.replace("/");
     } catch (err) {

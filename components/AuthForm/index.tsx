@@ -1,14 +1,22 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import Input from "../Input";
 import { useRouter } from "next/router";
 import { authenticateUser } from "@/utils/auth";
 import Image from "next/image";
+import axios from "axios";
+import { CircleLoader } from "react-spinners";
 
 export type authErrorType = {
   email: string | null;
   password: string | null;
   name: string | null;
+};
+
+const override: CSSProperties = {
+  display: "block",
+  // margin: "0 auto",
+  borderColor: "red",
 };
 
 const AuthForm = () => {
@@ -27,6 +35,8 @@ const AuthForm = () => {
   });
   const [isFormValid, setIsFormValid] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#ffffff");
 
   // Check overall form validity and update isFormValid state
   useEffect(() => {
@@ -34,13 +44,14 @@ const AuthForm = () => {
       return (
         isValidEmail(data.email) &&
         data.password.length >= 5 &&
-        data.name.length > 1
+        (!showLogin ? data.name.length > 1 : true)
       );
     };
     setIsFormValid(
-      Object.values(errors).every((error) => {
-        return !error;
-      }) && checkForFormValidity(formData)
+      // Object.values(errors).every((error) => {
+      //   return !error;
+      // }) &&
+      checkForFormValidity(formData)
     );
   }, [formData, errors]);
 
@@ -93,40 +104,55 @@ const AuthForm = () => {
     let credentials: any;
     setAuthError(null);
     if (isFormValid && showLogin) {
+      setLoading(true);
       try {
         credentials = {
           email: formData.email,
           password: formData.password,
         };
-
-        const accessToken = await authenticateUser(
+        setFormData({
+          email: "",
+          password: "",
+          name: "",
+        });
+        await authenticateUser(
           router,
           credentials,
           "http://localhost:8000/api/auth/login"
         );
-        // setCookie("accessToken", accessToken);
       } catch (err: any) {
+        setLoading(false);
         err.response.status === 401 &&
           setAuthError("Invalid email or password");
         console.log(err);
       }
     }
     if (isFormValid && !showLogin) {
+      setLoading(true);
       credentials = {
         name: formData.name,
         email: formData.email,
         password: formData.password,
       };
+      setFormData({
+        email: "",
+        password: "",
+        name: "",
+      });
       try {
-        await authenticateUser(
-          router,
-          credentials,
-          "http://localhost:8000/api/auth/register"
+        const response = await axios.post(
+          "http://localhost:8000/api/auth/register",
+          credentials
         );
+
+        localStorage.setItem("tokenExpiration", response.data.tokenExpiration);
+        localStorage.setItem("id", response.data.id);
+        router.push("/verify-email");
       } catch (err: any) {
+        setLoading(false);
         err.response.status === 409
           ? setAuthError("User exists already. Please sign in")
-          : setAuthError("Error registering user. Please try again later.");
+          : setAuthError("Error registering user. Please try again later!");
         console.log(err);
       }
     }
@@ -210,10 +236,20 @@ const AuthForm = () => {
           )}
           <div>
             <button
-              disabled={!isFormValid}
+              disabled={!isFormValid || loading}
               type="submit"
               className="flex disabled:bg-gray-400 disabled:cursor-not-allowed w-full justify-center rounded-md enabled:bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
+              {loading && (
+                <CircleLoader
+                  color={color}
+                  loading={loading}
+                  cssOverride={override}
+                  size={25}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              )}
               {showLogin ? "Login" : "Register"}
             </button>
           </div>
