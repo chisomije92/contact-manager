@@ -14,7 +14,7 @@ const api = axios.create({
     },
 });
 
-// Add a request interceptor
+// request interceptor
 
 api.interceptors.request.use(
     async (config) => {
@@ -29,7 +29,7 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Add a response interceptor
+//  response interceptor
 api.interceptors.response.use(
     (response) => response
     ,
