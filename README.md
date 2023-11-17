@@ -1,5 +1,5 @@
 
-# Hux Contact Manager - Next.js Application
+# Contact Manager - Next.js Application
 
 Welcome to the Hux Contact Manager, a Next.js application for managing your contacts.
 
