@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Router from 'next/router'
 
- export const baseURL = "https://contact-manager-api-poaf.onrender.com/api"
+// export const baseURL = "https://contact-manager-api-poaf.onrender.com/api"
 // export const baseURL = "http://localhost:8000/api"
-//  export const baseURL ="https://contact-manager-api.cyclic.app/api"
+ export const baseURL ="https://contact-manager-api.cyclic.app/api"
 
 
 axios.defaults.withCredentials = true
