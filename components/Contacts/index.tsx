@@ -30,10 +30,13 @@ const Contacts = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await api.get("/contacts", { withCredentials: true });
+        const response = await api.get("/contacts", {
+          withCredentials: true,
+        });
         setContacts(response.data);
         setLoading(false);
       } catch (err) {
+        setLoading(false);
         console.log(err);
       }
     };

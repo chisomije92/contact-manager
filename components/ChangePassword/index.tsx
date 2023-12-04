@@ -3,6 +3,7 @@ import Input from "../Input";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { authenticateUser } from "@/utils/auth";
+import { baseURL } from "@/helpers/api";
 
 const ChangePassword = () => {
   const router = useRouter();
@@ -81,7 +82,7 @@ const ChangePassword = () => {
       await authenticateUser(
         router,
         credentials,
-        `http://localhost:8000/api/auth/finish-reset/${token}`
+        `${baseURL}/auth/finish-reset/${token}`
       );
       router.push("/contacts");
     } catch (err: any) {

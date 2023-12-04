@@ -9,7 +9,6 @@ export default function withAuthentication(
   return function Render(
     props: Record<string, any>
   ): ReactElement<unknown> | null {
-    // const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { isAuthenticated } = useAuth();
 
     return isAuthenticated ? <Component {...props} /> : null;

@@ -1,5 +1,5 @@
 
-import api from '@/helpers/api';
+import api, { baseURL } from '@/helpers/api';
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +12,7 @@ const useAuth = () => {
         const validateUser = async () => {
             if (token) {
                 try {
-                    await api.get('http://localhost:8000/api/auth/validate', {
+                    await api.get(`${baseURL}/auth/validate`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -21,11 +21,11 @@ const useAuth = () => {
                 } catch (err: any) {
                     console.log(err.response)
                     setIsAuthenticated(false)
-                    Router.pathname !== "/" && Router.replace(`/`);
+                    Router.pathname !== "/" && Router.replace(`/login`);
                 }
             } else {
                 setIsAuthenticated(false)
-                Router.pathname !== "/" && Router.replace(`/`);
+                Router.pathname !== "/" && Router.replace(`/login`);
             }
         }
         validateUser()

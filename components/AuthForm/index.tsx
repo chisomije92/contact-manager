@@ -6,6 +6,7 @@ import { authenticateUser } from "@/utils/auth";
 import Image from "next/image";
 import axios from "axios";
 import { CircleLoader } from "react-spinners";
+import { baseURL } from "@/helpers/api";
 
 export type authErrorType = {
   email: string | null;
@@ -15,7 +16,6 @@ export type authErrorType = {
 
 const override: CSSProperties = {
   display: "block",
-  // margin: "0 auto",
   borderColor: "red",
 };
 
@@ -47,12 +47,7 @@ const AuthForm = () => {
         (!showLogin ? data.name.length > 1 : true)
       );
     };
-    setIsFormValid(
-      // Object.values(errors).every((error) => {
-      //   return !error;
-      // }) &&
-      checkForFormValidity(formData)
-    );
+    setIsFormValid(checkForFormValidity(formData));
   }, [formData, errors]);
 
   useEffect(() => {
@@ -115,15 +110,14 @@ const AuthForm = () => {
           password: "",
           name: "",
         });
-        await authenticateUser(
-          router,
-          credentials,
-          "http://localhost:8000/api/auth/login"
-        );
+        await authenticateUser(router, credentials, `${baseURL}/auth/login`);
       } catch (err: any) {
         setLoading(false);
         if (err.response.status === 401) {
           setAuthError("Invalid email or password");
+        }
+        if (err.response.status === 404) {
+          setAuthError("Please proceed to register first!");
         } else {
           setAuthError("Login failed. Please try again later!");
         }
@@ -145,7 +139,7 @@ const AuthForm = () => {
       });
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/auth/register",
+          `${baseURL}/auth/register`,
           credentials
         );
 

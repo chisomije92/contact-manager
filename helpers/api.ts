@@ -1,16 +1,18 @@
 import axios from 'axios';
 import Router from 'next/router'
 
-export const baseURL = "http://localhost:8000/api"
+ export const baseURL = "https://contact-manager-api-poaf.onrender.com/api"
+// export const baseURL = "http://localhost:8000/api"
+//  export const baseURL ="https://contact-manager-api.cyclic.app/api"
+
 
 axios.defaults.withCredentials = true
 const api = axios.create({
     baseURL,
     withCredentials: true,
-    timeout: 1000,
+    timeout: 50000,
     headers: {
-        // "content-type": "application/json",
-        "Access-Control-Allow-Origin": "localhost",
+        "Access-Control-Allow-Origin": "*",
     },
 });
 
@@ -51,7 +53,7 @@ api.interceptors.response.use(
                 return axios(originalRequest);
             } catch (error) {
                 // Handle refresh token error or redirect to login
-                Router.replace('/')
+                // Router.replace('/login')
                 return Promise.reject(error);
             }
         }

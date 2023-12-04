@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Input from "../Input";
 import axios from "axios";
+import { baseURL } from "@/helpers/api";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const ResetPassword = () => {
     setLoading(true);
     setEmail("");
     try {
-      await axios.post("http://localhost:8000/api/auth/reset-password", {
+      await axios.post(`${baseURL}/auth/reset-password`, {
         email,
       });
     } catch (err: any) {

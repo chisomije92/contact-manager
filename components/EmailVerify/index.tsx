@@ -1,3 +1,4 @@
+import { baseURL } from "@/helpers/api";
 import { authenticateUser } from "@/utils/auth";
 import axios from "axios";
 import Image from "next/image";
@@ -62,7 +63,7 @@ const EmailVerify = () => {
     try {
       const userId = localStorage.getItem("id");
       const response = await axios.post(
-        `http://localhost:8000/api/auth/update-token/${userId}`
+        `${baseURL}/auth/update-token/${userId}`
       );
       localStorage.setItem("tokenExpiration", response.data.tokenExpiration);
       window.location.reload();
@@ -79,7 +80,7 @@ const EmailVerify = () => {
       await authenticateUser(
         router,
         {},
-        `http://localhost:8000/api/auth/verify-user/${token}`
+        `${baseURL}/auth/verify-user/${token}`
       );
       localStorage.removeItem("tokenExpiration");
       localStorage.removeItem("id");
@@ -96,7 +97,7 @@ const EmailVerify = () => {
         <Image
           src="/Contacts.svg"
           width={50}
-          alt="Hux contact manager"
+          alt="contact manager"
           height={50}
           className="h-10 w-auto mr-28"
         />
