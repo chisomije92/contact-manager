@@ -27,13 +27,13 @@ Once you have the prerequisites in place, you can start the Hub Contact Manager 
 1. Clone the Repository: If you haven't already, clone this repository to your local machine:
 
 ```sh
-git clone https://github.com/chisomije92/hux-assessment-frontend.git
+git clone https://github.com/chisomije92/contact-manager.git
 ```
 
 2. Navigate to the Project Directory: Change your current working directory to the project's root folder:
 
 ```sh
-cd hux-assessment-frontend
+cd contact-manager
 ```
 
 3. Start the Development Server: To run the application locally, use the following command:
